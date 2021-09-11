@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace HelloWorldLibrary
+﻿namespace HelloWorldLibrary
 {
     public class Class1
     {
