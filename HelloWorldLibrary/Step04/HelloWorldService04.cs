@@ -16,30 +16,36 @@ namespace HelloWorldLibrary
         {
             DateTime now = dateTimeRepo.Now();
 
-            DateTime nowMiddDay = new DateTime(
-                now.Year, now.Month, now.Day, 12, 0, 0);
-
-            DateTime nowGouter = new DateTime(
-                now.Year, now.Month, now.Day, 16, 30, 0);
-
-            string partOfTheDay;
-
-            if (now.CompareTo(nowMiddDay) == -1)
-            {
-                partOfTheDay = "morning";
-            }
-            else if (
-                now.CompareTo(nowMiddDay) >= 0
-                && now.CompareTo(nowGouter) == -1)
-            {
-                partOfTheDay = "afternoon";
-            }
-            else
-            {
-                partOfTheDay = "evening";
-            }
+            string partOfTheDay= DeterminePartOfTheDay(now);
 
             return $"Hello World! it's {now:HH:mm}, good {partOfTheDay}!";
+        }
+
+        private string DeterminePartOfTheDay(DateTime now)
+        {
+            if (IsMorning(now, dateTimeRepo.Middday()))
+            {
+                return "morning";
+            }
+
+            if (IsAfternoon(now, dateTimeRepo.Middday(), dateTimeRepo.Gouter()))
+            {
+                return "afternoon";
+            }
+
+            return "evening";
+
+        }
+
+        private static bool IsMorning(DateTime now, DateTime nowMiddDay)
+        {
+            return now.CompareTo(nowMiddDay) == -1;
+        }
+
+        private static bool IsAfternoon(DateTime now, DateTime nowMiddDay, DateTime nowGouter)
+        {
+            return now.CompareTo(nowMiddDay) >= 0
+                            && now.CompareTo(nowGouter) == -1;
         }
     }
 }
